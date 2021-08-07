@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "test": "node --experimental-vm-modules node_modules/.bin/jest",
-    "test:api": "npm-run-all api test",
+    "build": "rollup -c",
     "coverage": "jest --coverage",
     "lint:eslint": "eslint --ext .js . --ignore-path .gitignore",
     "format:eslint": "eslint --ext .js . --fix --ignore-path .gitignore",
@@ -13,7 +13,8 @@
     "format:prettier": "prettier \"**/*.js\" --write --ignore-path .gitignore",
     "lint": "npm run lint:eslint && npm run lint:prettier",
     "format": "npm run format:eslint && npm run format:prettier",
-    "web": "web-dev-server --node-resolve --watch --app-index static/view.html --open"
+    "web": "web-dev-server --node-resolve --watch --app-index view.html --open",
+    "serve" : "serve build"
   },
   "repository": {
     "type": "git",
@@ -29,18 +30,25 @@
     "@babel/cli": "^7.14.5",
     "@babel/core": "^7.14.6",
     "@babel/preset-env": "^7.14.7",
-    "d3": "^4.0.0",
+    "@rollup/plugin-commonjs": "^17.0.0",
+    "@rollup/plugin-node-resolve": "^11.2.1",
+    "@web/rollup-plugin-copy": "^0.3.0",
     "eslint": "^7.29.0",
     "eslint-config-airbnb": "^18.2.1",
     "express": "^4.8.1",
     "lint-staged": "^11.0.0",
     "lit-element": "^2.5.1",
+    "lit-html": "^1.4.1",
     "nodemon": "^2.0.11",
     "npm-run-all": "^4.1.5",
-    "path": "^0.12.7",
-    "postgresql-client": "^1.16.7",
     "prettier": "^2.3.2",
-    "rimraf": "^3.0.2"
+    "rimraf": "^3.0.2",
+    "rollup": "^2.56.0",
+    "rollup-plugin-html-entry": "^0.3.0",
+    "rollup-plugin-minify-html-literals": "^1.2.6",
+    "rollup-plugin-summary": "^1.3.0",
+    "rollup-plugin-terser": "^7.0.2",
+    "serve": "^12.0.0"
   },
   "eslintConfig": {
     "extends": [
@@ -82,6 +90,7 @@
   },
   "devDependencies": {
     "@web/dev-server": "^0.1.18",
+    "@web/rollup-plugin-html": "^1.9.1",
     "eslint-plugin-import": "^2.23.4",
     "eslint-plugin-jsx-a11y": "^6.4.1",
     "eslint-plugin-react": "^7.24.0",
