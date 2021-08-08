@@ -9,11 +9,9 @@ To start the application
 npm run web
 ```
 
-```npm
-npm run test
-```
+Local app at http://localhost:8000/
 
-```shell
+```nodejs
 npm run build
 ```
 

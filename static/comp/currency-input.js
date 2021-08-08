@@ -2,6 +2,7 @@ import { LitElement, html } from 'lit-element';
 import { repeat } from 'lit-html/directives/repeat';
 import * as Service from '../../lib/service';
 import * as Util from '../../lib/utility';
+import { default as CONSTANT } from '../../lib/app.constant';
 
 export class CurrencyInput extends LitElement {
 
@@ -11,12 +12,20 @@ export class CurrencyInput extends LitElement {
             type: String,
         }
     };
-  }  
+  }
+
+  setInputAmount(amount) {
+    Util.findInShadowRoot(this, `#${CONSTANT.CURRENCY_INPUT.AMOUNT.ID}`).type = 'text';
+    this.inputAmount = amount;
+  }
 
   constructor() {
     super();
-    this.counter = 0;
     this.setCurrencyList();
+  }
+
+  firstUpdated() {
+    this.inputAmount = '';
   }
 
   async setCurrencyList() {
@@ -27,15 +36,15 @@ export class CurrencyInput extends LitElement {
 
   currencyChange(event) {
     const sourceCurrency = event.target.value;
-    const sourceAmount = Util.findInShadowRoot(this, `#enteredAmount`).value;
+    const sourceAmount = Util.findInShadowRoot(this, `#${CONSTANT.CURRENCY_INPUT.AMOUNT.ID}`).value;
     this.currencyAmountChange(sourceCurrency, sourceAmount);
   }
 
   currencyAmountChange(currency, amount) {
-    const currChangeEvent = new CustomEvent('currency-amount-change', {
+    const currChangeEvent = new CustomEvent(`${CONSTANT.CURRENCY_INPUT.TRIGGER_EVENT.NAME}`, {
         detail: {
-            sourceCurrency: currency,
-            sourceAmount: amount
+            currency,
+            amount,
         },
         composed: true,
         bubbles: true,
@@ -45,21 +54,28 @@ export class CurrencyInput extends LitElement {
   }
 
   focus() {
-    Util.findInShadowRoot(this, `#enteredAmount`).type = 'number';
+    Util.findInShadowRoot(this, `#${CONSTANT.CURRENCY_INPUT.AMOUNT.ID}`).type = 'number';
   }
 
   blur(event) {
-    const sourceCurrency = Util.findInShadowRoot(this, `#selectCurrency`).value;
-    const sourceAmount = Util.findInShadowRoot(this, `#enteredAmount`).value;
+    const sourceCurrency = Util.findInShadowRoot(this, `#${CONSTANT.CURRENCY_INPUT.TYPE.ID}`).value;
+    const sourceAmount = Util.findInShadowRoot(this, `#${CONSTANT.CURRENCY_INPUT.AMOUNT.ID}`).value;
     this.currencyAmountChange(sourceCurrency, sourceAmount);
-    Util.findInShadowRoot(this, `#enteredAmount`).type = 'text';
+    Util.findInShadowRoot(this, `#${CONSTANT.CURRENCY_INPUT.AMOUNT.ID}`).type = 'text';
+  }
+
+  getCurrentInstanceValue() {
+    return {
+      currency: Util.findInShadowRoot(this, `#${CONSTANT.CURRENCY_INPUT.TYPE.ID}`).value,
+      amount: Util.findInShadowRoot(this, `#${CONSTANT.CURRENCY_INPUT.AMOUNT.ID}`).value,
+    };
   }
 
   render() {
     return html `
         <div id="currency">
             <div id="inputCurrency">
-                <select id="selectCurrency" @change="${this.currencyChange}">
+                <select id="${CONSTANT.CURRENCY_INPUT.TYPE.ID}" @change="${this.currencyChange}">
                     <option selected hidden value>--select--</option>
                     ${repeat(
                         this._currencyList,
@@ -67,13 +83,13 @@ export class CurrencyInput extends LitElement {
                     )}
                 </select>
             </div>
-            <div id="inputAmount">
-                <label>Amount converted</label>
+            <div>
+                <label>${CONSTANT.CURRENCY_INPUT.AMOUNT.LABEL}</label>
                 <input 
                     autocomplete="off"
                     class="form-control"
-                    id="enteredAmount" 
-                    type="number"  
+                    id="${CONSTANT.CURRENCY_INPUT.AMOUNT.ID}"
+                    type="text"  
                     @blur="${this.blur}"
                     @focus="${this.focus}"
                     .value="${this.inputAmount}"/>
