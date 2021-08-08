@@ -3,13 +3,10 @@ import { repeat } from 'lit-html/directives/repeat';
 import * as Service from '../../lib/service';
 import * as Util from '../../lib/utility';
 
-class MyElement extends LitElement {
+export class MyElement extends LitElement {
 
   static get properties() {
     return {
-      counter: {
-        type: Number
-      }
     };
   }  
 
@@ -46,7 +43,7 @@ class MyElement extends LitElement {
       const enteredAmountFirst = Util.findInShadowRoot(this, `#enteredAmount1`).value;
       if (enteredAmountFirst > 1 && currentCurrency && targetCurrency) {
           const convAmount = await Util.convertAmount(enteredAmountFirst, currentCurrency, targetCurrency);
-          this.enteredAmountSecond = await Util.convertToDisplay(convAmount, targetCurrency);
+          this.enteredAmountSecond = await Util.convertToDisplay(convAmount, targetCurrency, document.documentElement.lang);
           this.setTargetAmountState();
       }
       this._blockingError = false;
@@ -59,34 +56,15 @@ class MyElement extends LitElement {
   render() {
     return html`
       <div class="transferMoney container-fluid">
-        <div id="currency1"  class="row">
-          <div id="inputCurrency1" class="col">
-            <select id="selectCurrency1" @change="${this.currencyChange}">
-              <option selected hidden value>--select--</option>
-              ${repeat(
-                this._currencyList,
-                currency => html` <option value="${currency.currencyCode}">${currency.currencySymbol} ${currency.currencyName}</option>`,
-              )}
-            </select>
-          </div>
-          <div id="inputAmount1" class="col">
-            <label>Enter your amount</label>
-            <input id="enteredAmount1" type="number" value="1000" class="form-control" autocomplete="off" value="${this.enteredAmountFirst}"/>
-          </div>
+        <div id="currency1">
+          <currency-input
+            @currency-amount-change="${this.currencyChange}"
+          ></currency-input>
         </div>
         <div id="currency2">
-          <div id="inputCurrency2">
-            <select id="selectCurrency2" @change="${this.currencyChange}">
-              <option selected hidden value>--select--</option>
-              ${repeat(
-                this._currencyList,
-                currency => html` <option value="${currency.currencyCode}">${currency.currencyName}</option> `,
-              )}
-            </select>
-        </div>
-        <div id="inputAmount2">
-            <label>Amount converted</label>
-            <input id="enteredAmount2" type="number" class="form-control" autocomplete="off" value="${this.enteredAmountSecond}"/>
+          <currency-input
+            @currency-amount-change="${this.currencyChange}"
+          ></currency-input>
         </div>
       </div>
     `;

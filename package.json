@@ -14,7 +14,7 @@
     "lint": "npm run lint:eslint && npm run lint:prettier",
     "format": "npm run format:eslint && npm run format:prettier",
     "web": "web-dev-server --node-resolve --watch --app-index view.html --open",
-    "serve" : "serve build"
+    "serve": "serve build"
   },
   "repository": {
     "type": "git",

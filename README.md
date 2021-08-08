@@ -12,3 +12,10 @@ npm run web
 ```npm
 npm run test
 ```
+
+```shell
+npm run build
+```
+
+Public url 
+https://raichu-currency-convertor.netlify.app/view
