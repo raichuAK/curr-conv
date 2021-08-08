@@ -1,9 +1,18 @@
-import { LitElement, html } from 'lit-element';
+import { LitElement, html, css } from 'lit-element';
 import * as Service from '../../lib/service';
 import * as Util from '../../lib/utility';
 import { default as CONSTANT } from '../../lib/app.constant';
 
 export class CurrencyConvertor extends LitElement {
+  static get styles() {
+    return css`
+      .currency-line {
+        margin: 200px;
+        width: 500px;
+      }
+    `;
+  }
+
   constructor() {
     super();
     this.counter = 0;
@@ -101,14 +110,14 @@ export class CurrencyConvertor extends LitElement {
   render() {
     return html`
       <div class="transferMoney container-fluid">
-        <div>
+        <div class="currency-line">
           <currency-input
             id="${CONSTANT.VIEW.CURRENCY_1.ID}"
             .inputAmount="${this.amount1}"
             @currency-amount-change="${this.currencyChange1}"
           ></currency-input>
         </div>
-        <div>
+        <div class="currency-line">
           <currency-input
             id="${CONSTANT.VIEW.CURRENCY_2.ID}"
             .inputAmount="${this.amount2}"
@@ -119,4 +128,4 @@ export class CurrencyConvertor extends LitElement {
     `;
   }
 }
-window.customElements.get('my-element') || window.customElements.define('my-element', CurrencyConvertor);
+window.customElements.get('currency-convertor') || window.customElements.define('currency-convertor', CurrencyConvertor);

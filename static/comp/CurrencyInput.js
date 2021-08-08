@@ -1,10 +1,47 @@
-import { LitElement, html } from 'lit-element';
+import { LitElement, html, css } from 'lit-element';
 import { repeat } from 'lit-html/directives/repeat';
 import * as Service from '../../lib/service';
 import * as Util from '../../lib/utility';
 import { default as CONSTANT } from '../../lib/app.constant';
 
 export class CurrencyInput extends LitElement {
+  static get styles() {
+    return css`
+      input[type='text'] {
+        padding: 2px;
+        border-radius: 5px;
+        width: 100%;
+        margin: 5px;
+      }
+
+      input[type='number'] {
+        padding: 3px;
+        border-radius: 5px;
+        width: 100%;
+        margin: 5px;
+      }
+
+      select {
+        padding: 3px;
+        border-radius: 5px;
+        width: 100%;
+        margin: 5px;
+      }
+
+      option:nth-child(odd) {
+        background-color: #777;
+      }
+
+      option:nth-child(even) {
+        background-color: blue;
+      }
+
+      label {
+        color: blue;
+      }
+    `;
+  }
+
   static get properties() {
     return {
       inputAmount: {
@@ -91,7 +128,6 @@ export class CurrencyInput extends LitElement {
             .value="${this.inputAmount}"
           />
         </div>
-        <div></div>
       </div>
     `;
   }

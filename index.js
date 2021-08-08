@@ -1,6 +1,6 @@
-import { CurrencyConvertor } from './static/js/view';
-import { CurrencyInput } from './static/comp/currency-input';
+import { CurrencyConvertor } from './static/js/CurrencyConvertor';
+import { CurrencyInput } from './static/comp/CurrencyInput';
 
-window.customElements.get('my-element') || window.customElements.define('my-element', CurrencyConvertor);
+window.customElements.get('currency-convertor') || window.customElements.define('currency-convertor', CurrencyConvertor);
 
 window.customElements.get('currency-input') || window.customElements.define('currency-input', CurrencyInput);
