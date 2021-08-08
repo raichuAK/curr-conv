@@ -54,22 +54,33 @@
     "extends": [
       "airbnb-base"
     ],
+    "env" : {
+      "browser": true
+    },
     "overrides": [
       {
         "files": [
           "*"
         ],
         "rules": {
-          "babel/no-unused-expressions": "off"
+          "babel/no-unused-expressions": "off",
+          "no-unused-expressions": "off",
+          "import/prefer-default-export": "off",
+          "import/no-named-default": "off",
+          "no-underscore-dangle": "off",
+          "max-len": ["error", { "code": 150 }]
         }
       }
     ],
     "globals": {
-      "express": false
+      "window": true,
+      "document": true,
+      "fetch": true,
+      "CustomEvent": true
     }
   },
   "prettier": {
-    "printWidth": 100,
+    "printWidth": 150,
     "singleQuote": true,
     "trailingComma": "all",
     "arrowParens": "avoid"
